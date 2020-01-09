@@ -70,7 +70,7 @@ export function setToken({ payload }) {
 }
 
 /**
- * No saga podemos ouvir a action persist/REHYDRATE, que é disparada pelo
+ * No saga podemos ouvir a action "persist/REHYDRATE", que é disparada pelo
  * redux-persist e também possui um payload.
  * O redux-persist só deixa exibir o conteúdo da tela após ter recuperado os
  * dados de dentro da storage. Assim o token sempre vai estar presente quando
@@ -80,6 +80,7 @@ export function setToken({ payload }) {
 
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
+
   takeLatest('@auth/SIGN_IN_REQUEST', signIn),
   takeLatest('@auth/SIGN_UP_REQUEST', signUp),
 ]);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { MdNotifications } from 'react-icons/md';
 import { parseISO, formatDistance } from 'date-fns';
 import pt from 'date-fns/locale/pt';
@@ -22,6 +22,19 @@ export default function Notifications() {
   const [visible, setVisible] = useState(false);
   const [notifications, setNotifications] = useState([]);
 
+  /**
+   * Hook useMemo():
+   * primeiro parâmetro: é uma função que retornará se existe uma notificação
+   *    não lida;
+   * segundo parâmetro: um array de dependência que contém todas as variáveis
+   *    utilizadas na função. Sempre que 'notifications' for alterada, a const
+   *    hasUnread será calculada.
+   */
+  const hasUnread = useMemo(
+    () => Boolean(notifications.find(notification => !notification.read)),
+    [notifications]
+  );
+
   useEffect(() => {
     async function loadNotifications() {
       const response = await api.get('notifications');
@@ -39,7 +52,7 @@ export default function Notifications() {
     }
 
     loadNotifications();
-  }, []);
+  });
 
   function handleToggleVisible() {
     setVisible(!visible);
@@ -57,7 +70,7 @@ export default function Notifications() {
 
   return (
     <Container>
-      <Badge onClick={handleToggleVisible} hasUnread>
+      <Badge onClick={handleToggleVisible} hasUnread={hasUnread}>
         <MdNotifications color="#7159c1" size={20} />
       </Badge>
 
@@ -67,7 +80,7 @@ export default function Notifications() {
             <Notification key={notification._id} unread={!notification.read}>
               <p>{notification.content}</p>
               <time>{notification.timeDistance}</time>
-              {!notification.read /** meu */ && (
+              {!notification.read && (
                 <button
                   type="button"
                   onClick={() => handleMarkAsRead(notification._id)}

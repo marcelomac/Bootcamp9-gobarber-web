@@ -10,6 +10,7 @@ import { Container, Content, Profile } from './styles';
 export default function Header() {
   return (
     <Container>
+      <Notifications />
       <Content>
         <nav>
           <img src={logo} alt="GoBarber" />
@@ -17,7 +18,6 @@ export default function Header() {
         </nav>
 
         <aside>
-          <Notifications />
           <Profile>
             <div>
               <strong>Marcelo Alessandro</strong>

@@ -4,6 +4,9 @@ import { Form, Input } from '@rocketseat/unform';
 
 import { updateProfileRequest } from '~/store/modules/user/actions';
 
+// import AvatarInput from './AvatarInput';
+// <AvatarInput name="avatar_id" />
+
 import { Container } from './styles';
 
 export default function Profile() {

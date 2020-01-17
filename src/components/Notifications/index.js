@@ -31,7 +31,7 @@ export default function Notifications() {
    *    hasUnread será calculada.
    */
   const hasUnread = useMemo(
-    () => Boolean(notifications.find(notification => !notification.read)),
+    () => !!notifications.find(notification => !notification.read),
     [notifications]
   );
 
@@ -52,7 +52,7 @@ export default function Notifications() {
     }
 
     loadNotifications();
-  });
+  }, []);
 
   function handleToggleVisible() {
     setVisible(!visible);
